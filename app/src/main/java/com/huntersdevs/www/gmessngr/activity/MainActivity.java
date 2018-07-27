@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = MainActivity.class.getName();
 
-    @BindView(R.id.fl_main)
-    FrameLayout flMain;
-
     @BindView(R.id.fl_mesaage_tab)
     FrameLayout flMessageTab;
     @BindView(R.id.iv_message)
@@ -56,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = getApplicationContext();
-
-        flMain.setPadding(0, Util.getStatusBarHeight(mContext),0,0);
 
         mMessageFragment = MessageFragment.newInstance();
         mContactFragment = ContactFragment.newInstance();

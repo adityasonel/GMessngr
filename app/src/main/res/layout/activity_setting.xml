@@ -6,7 +6,7 @@
     android:background="@drawable/background_login_activity"
     android:orientation="vertical"
     android:id="@+id/fl_main"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.SettingActivity">
 
     <LinearLayout
         android:id="@+id/fl_toolbar"
@@ -38,6 +38,10 @@
         android:translationZ="@dimen/four"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
 

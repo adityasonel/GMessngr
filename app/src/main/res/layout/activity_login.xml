@@ -37,6 +37,7 @@
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/et_phone_number"
+            android:digits="@string/validate_string"
             android:layout_toEndOf="@+id/tv_country_code"
             android:layout_toStartOf="@+id/tv_next"
             android:textSize="16sp"
@@ -65,24 +66,31 @@
             android:fontFamily="@font/ios_font_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_verifying"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_verifying"
+                android:layout_marginEnd="@dimen/twelve"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/ios_font_regular"
+                android:text="@string/verifying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav"
+                app:lottie_loop="true"
+                android:layout_marginEnd="@dimen/sixteen"
+                android:layout_gravity="center_vertical"
+                app:lottie_rawRes="@raw/loading"
+                android:layout_width="@dimen/thirtytwo"
+                android:layout_height="@dimen/thirtytwo" />
+        </LinearLayout>
     </RelativeLayout>
-
-    <FrameLayout
-        android:visibility="gone"
-        android:translationZ="@dimen/six"
-        android:id="@+id/fl_loading"
-        android:background="#CC000000"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lav"
-            app:lottie_loop="true"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/loading"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/fiftysix"
-            android:layout_height="@dimen/fiftysix" />
-    </FrameLayout>
-
 
 </RelativeLayout>

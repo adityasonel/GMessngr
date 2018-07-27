@@ -1,10 +1,14 @@
 package com.huntersdevs.www.gmessngr.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.Util;
 
@@ -16,8 +20,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private Context mContext;
 
-    @BindView(R.id.fl_main)
-    FrameLayout flMain;
+    private FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +28,23 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         mContext = getApplicationContext();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        flMain.setPadding(0, Util.getStatusBarHeight(mContext), 0, 0);
+        findViewById(R.id.btn_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFirebaseAuth.signOut();
+            }
+        });
+
+        mFirebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(SettingActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            }
+        });
     }
 
     @OnClick(R.id.iv_back)

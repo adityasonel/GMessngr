@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GMessngr</string>
 
     <string name="login">LOG IN</string>
@@ -14,6 +14,8 @@
     <string name="setting">Settings</string>
 
     <string name="phone_number">PHONE_NUMBER</string>
+    <string name="verification_id">VERIFICATION_ID</string>
+
     <string name="enter_number">Enter phone number</string>
     <string name="plus_nineone">+91</string>
     <string name="next">NEXT</string>
@@ -23,4 +25,7 @@
     <string name="please_enter_pin_below">please enter the PIN below</string>
 
     <string name="wrong_number">Wrong Number ?</string>
+
+    <string name="validate_string">0123456789</string>
+    <string name="verifying" tools:ignore="TypographyEllipsis">Verifying...</string>
 </resources>
