@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "654182594295",
+    "firebase_url": "https://gmessngr.firebaseio.com",
+    "project_id": "gmessngr",
+    "storage_bucket": "gmessngr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654182594295:android:5b75e998214890d4",
+        "android_client_info": {
+          "package_name": "com.huntersdevs.www.gmessngr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654182594295-f524s8eu3j0bt7iqa01frvjp4jpf8b0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.huntersdevs.www.gmessngr",
+            "certificate_hash": "7075b9c490f0a9a6f65587fb93b4bf76e04eb879"
+          }
+        },
+        {
+          "client_id": "654182594295-45hbrr5hduiln028emimgegfkn53jr5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3Fe-HC6XF4HaIM_HM2IETZL39u_nT11g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654182594295-45hbrr5hduiln028emimgegfkn53jr5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

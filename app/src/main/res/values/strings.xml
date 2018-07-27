@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">GMessngr</string>
+
+    <string name="login">LOG IN</string>
+    <string name="tnc"><u>Terms &amp; Condition</u></string>
+
+    <string name="youareawesome">You are awesome!</string>
+
+    <string name="somethingwentwrong">Something went wrong, Please try again!</string>
+    <string name="checknetworkconnection">Unable to connect, please check your network connection!</string>
+
+    <string name="tag">tag</string>
+
+    <string name="setting">Settings</string>
+
+    <string name="enter_number">Enter phone number</string>
+    <string name="plus_nineone">+91</string>
+    <string name="next">NEXT</string>
+</resources>

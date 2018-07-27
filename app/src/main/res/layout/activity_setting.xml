@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login_activity"
+    android:orientation="vertical"
+    android:id="@+id/fl_main"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/fl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_back"
+            android:scaleType="center"
+            android:layout_marginStart="@dimen/eight"
+            android:src="@drawable/ic_back"
+            android:layout_width="@dimen/fourtyeight"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginStart="@dimen/sixteen"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:fontFamily="@font/allura"
+            android:text="@string/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_marginTop="@dimen/toolbar_height"
+        android:background="@drawable/background_main_activity"
+        android:translationZ="@dimen/four"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
+
+</FrameLayout>
