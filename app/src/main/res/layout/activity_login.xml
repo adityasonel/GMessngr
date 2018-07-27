@@ -69,6 +69,7 @@
 
     <FrameLayout
         android:visibility="gone"
+        android:translationZ="@dimen/six"
         android:id="@+id/fl_loading"
         android:background="#CC000000"
         android:layout_width="match_parent"

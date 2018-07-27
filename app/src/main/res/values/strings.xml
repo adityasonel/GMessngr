@@ -13,7 +13,14 @@
 
     <string name="setting">Settings</string>
 
+    <string name="phone_number">PHONE_NUMBER</string>
     <string name="enter_number">Enter phone number</string>
     <string name="plus_nineone">+91</string>
     <string name="next">NEXT</string>
+    <string name="hint_enter_pin">Enter SMS PIN</string>
+    <string name="enter_pin_number">ENTER YOUR PIN NUMBER</string>
+    <string name="sms_pin_sent_to">SMS PIN sent to</string>
+    <string name="please_enter_pin_below">please enter the PIN below</string>
+
+    <string name="wrong_number">Wrong Number ?</string>
 </resources>
