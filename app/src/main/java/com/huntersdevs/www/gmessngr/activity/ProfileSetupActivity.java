@@ -121,10 +121,11 @@ public class ProfileSetupActivity extends AppCompatActivity {
         mCollectionReference
                 .document(uid)
                 .collection(getString(R.string.profile_info_collection))
-                .add(value)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(getString(R.string.profile_info_collection))
+                .set(value)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         mPrefManager.setIsProfileSetuped(true);
                         lav.pauseAnimation();
                         startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class));
