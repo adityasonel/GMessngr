@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PermissionActivity">
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_marginTop="@dimen/nintysix"
+        android:textSize="48sp"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name"
+        android:fontFamily="@font/allura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:fontFamily="@font/ios_font_regular"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_app_name"
+        android:layout_marginTop="@dimen/six"
+        android:text="@string/need_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/ll_permission_detail"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_contacts"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_contacts"
+            android:drawablePadding="@dimen/sixteen"
+            android:paddingTop="@dimen/six"
+            android:paddingBottom="@dimen/six"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/ios_font_bold"
+            android:text="@string/contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/ios_font_regular"
+            android:layout_marginStart="38dp"
+            android:text="@string/contacts_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_storage"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/sixteen"
+            android:drawableStart="@drawable/ic_storage"
+            android:drawablePadding="@dimen/sixteen"
+            android:paddingTop="@dimen/six"
+            android:paddingBottom="@dimen/six"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/ios_font_bold"
+            android:text="@string/storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/ios_font_regular"
+            android:layout_marginStart="38dp"
+            android:text="@string/storage_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_continue"
+        android:translationZ="@dimen/four"
+        android:background="@drawable/background_btn_continue"
+        android:layout_above="@id/tv_not_now"
+        android:paddingBottom="@dimen/twelve"
+        android:paddingTop="@dimen/twelve"
+        android:textSize="16sp"
+        android:fontFamily="@font/ios_font_bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/continuee"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/fourtyeight"
+        android:layout_marginEnd="@dimen/fourtyeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_not_now"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="@font/ios_font_regular"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:text="@string/not_now"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

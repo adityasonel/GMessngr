@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_more_vert_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_contacts_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_setting" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/search.svg" />
+                            <entry key="outputName" value="ic_contacts" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/folder.svg" />
                           </map>
                         </option>
                       </PersistentState>

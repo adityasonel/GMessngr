@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.huntersdevs.www.gmessngr.R;
+import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.Util;
 import com.huntersdevs.www.gmessngr.fragment.ContactFragment;
 import com.huntersdevs.www.gmessngr.fragment.MessageFragment;
@@ -36,23 +39,38 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivSetting;
 
     private Context mContext;
-    private Activity mActivity;
+    private PrefManager mPrefManager;
 
     private MessageFragment mMessageFragment;
     private ContactFragment mContactFragment;
 
     private static boolean isContactFragmentVisible;
 
+    /**
+     * if
+     *      mPrefManager.isFirstTime => true => start PERMISSION_ACTIVITY
+     * else if
+     *      mPrefManager.isFirstTime => false -> start LOGIN_ACTIVITY
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!Util.isLogin()) {
+        mContext = getApplicationContext();
+        mPrefManager = PrefManager.getInstance(mContext);
+
+        if (mPrefManager.getIsFirstTime()) {
+            startActivity(new Intent(MainActivity.this, PermissionActivity.class));
+            finish();
+        } else if (Util.isLogin() && !mPrefManager.getIsProfileSetuped()) {
+            startActivity(new Intent(MainActivity.this, ProfileSetupActivity.class));
+            finish();
+        } else if (!Util.isLogin()) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mContext = getApplicationContext();
 
         mMessageFragment = MessageFragment.newInstance();
         mContactFragment = ContactFragment.newInstance();

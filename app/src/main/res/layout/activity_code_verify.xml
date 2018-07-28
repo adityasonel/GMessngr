@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/allura"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:text="@string/app_name" />
     </FrameLayout>
@@ -28,7 +28,7 @@
         android:layout_marginTop="@dimen/onetwentyeight"
         android:text="@string/enter_pin_number"
         android:fontFamily="@font/ios_font_bold"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         android:layout_below="@+id/tv_enter_pin"
         android:fontFamily="@font/ios_font_regular"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

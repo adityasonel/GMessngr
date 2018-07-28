@@ -19,13 +19,36 @@
     <string name="enter_number">Enter phone number</string>
     <string name="plus_nineone">+91</string>
     <string name="next">NEXT</string>
-    <string name="hint_enter_pin">Enter SMS PIN</string>
-    <string name="enter_pin_number">ENTER YOUR PIN NUMBER</string>
-    <string name="sms_pin_sent_to">SMS PIN sent to</string>
-    <string name="please_enter_pin_below">please enter the PIN below</string>
+    <string name="hint_enter_pin">Enter VERIFICATION CODE</string>
+    <string name="enter_pin_number">ENTER YOUR VERIFICATION CODE</string>
+    <string name="sms_pin_sent_to">VERFICATION CODE sent to</string>
+    <string name="please_enter_pin_below">please enter the VERIFICATION CODE below</string>
 
     <string name="wrong_number">Wrong Number ?</string>
 
     <string name="validate_string">0123456789</string>
     <string name="verifying" tools:ignore="TypographyEllipsis">Verifying...</string>
+
+    <string name="need_permission">Need your permissions to work!</string>
+
+    <string name="contacts">Contacts</string>
+    <string name="contacts_tagline">To check in database for your friends!</string>
+    <string name="storage">Storage</string>
+    <string name="storage_tagline">To securely store your documents!</string>
+
+    <string name="continuee">Continue</string>
+    <string name="not_now">Not now!</string>
+
+    <string name="were_done">We\'re almost done</string>
+    <string name="were_done_tagline">Just enter your nickname below!</string>
+
+    <string name="enter_name">Enter nickname</string>
+
+    <string name="counter">0/15</string>
+    <string name="counter_limit">/15</string>
+
+    <string name="setting_up" tools:ignore="TypographyEllipsis">Setting up profile...</string>
+
+    <string name="users_collection">users</string>
+    <string name="profile_info_collection">profileInfo</string>
 </resources>

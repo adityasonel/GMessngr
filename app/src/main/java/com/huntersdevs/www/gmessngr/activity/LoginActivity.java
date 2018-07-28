@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -46,6 +47,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.huntersdevs.www.gmessngr.R;
+import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.Util;
 
 import java.util.concurrent.TimeUnit;
@@ -62,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     private static String TAG = LoginActivity.class.getName();
 
     private Context mContext;
+    private PrefManager mPrefManager;
 
     private boolean isCodeSended = false;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mStateChangeCallbacks;
@@ -87,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mContext = getApplicationContext();
+        mPrefManager = PrefManager.getInstance(mContext);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAuth.useAppLanguage();
@@ -190,7 +194,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     isVerifying(false);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    mPrefManager.setPhoneNumber(phoneNumber);
+                    startActivity(new Intent(LoginActivity.this, ProfileSetupActivity.class));
                     finish();
                 } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                     isVerifying(false);
@@ -202,7 +207,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: " + e.toString());
                 isVerifying(false);
-                Util.showShortToast(mContext, "Login failed, please try again!!!");
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    Util.showShortToast(mContext, "Please check your number, and try again!!!");
+                } else if (e instanceof FirebaseNetworkException) {
+                    Util.showShortToast(mContext, "Please check your network connection, and try again!!!");
+                } else {
+                    Util.showShortToast(mContext, "Login failed, please try again!!!");
+                }
             }
         });
     }
@@ -228,7 +239,9 @@ public class LoginActivity extends AppCompatActivity {
     private void hideKeyboard() {
         if (getCurrentFocus() != null) {
             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
         }
     }
 

@@ -21,12 +21,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.huntersdevs.www.gmessngr.R;
+import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.Util;
 
 import butterknife.BindView;
@@ -40,6 +42,7 @@ public class CodeVerifyActivity extends AppCompatActivity {
     private static String TAG = CodeVerifyActivity.class.getName();
 
     private Context mContext;
+    private PrefManager mPrefManager;
 
     @BindView(R.id.tv_info_sms_pin)
     TextView tvInfoSmsPin;
@@ -68,6 +71,7 @@ public class CodeVerifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_code_verify);
         ButterKnife.bind(this);
         mContext = getApplicationContext();
+        mPrefManager = PrefManager.getInstance(mContext);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -118,7 +122,8 @@ public class CodeVerifyActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(CodeVerifyActivity.this, MainActivity.class));
+                    mPrefManager.setPhoneNumber(phoneNumber);
+                    startActivity(new Intent(CodeVerifyActivity.this, ProfileSetupActivity.class));
                     finish();
                 } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                     isLogin(false);
@@ -130,7 +135,13 @@ public class CodeVerifyActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "onFailure: " + e.toString());
                 isLogin(false);
-                Util.showShortToast(mContext, "Login failed, please try again!!!");
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    Util.showShortToast(mContext, "Please check your number, and try again!!!");
+                } else if (e instanceof FirebaseNetworkException) {
+                    Util.showShortToast(mContext, "Please check your network connection, and try again!!!");
+                } else {
+                    Util.showShortToast(mContext, "Login failed, please try again!!!");
+                }
             }
         });
     }

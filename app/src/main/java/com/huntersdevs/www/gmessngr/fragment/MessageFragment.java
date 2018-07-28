@@ -31,6 +31,7 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_message, container, false);
+        mContext = getContext();
         return mView;
     }
 
