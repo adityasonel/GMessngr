@@ -34,7 +34,7 @@
     <FrameLayout
         android:id="@+id/fl_container"
         android:layout_marginTop="@dimen/toolbar_height"
-        android:layout_marginBottom="@dimen/toolbar_height"
+        android:paddingBottom="@dimen/toolbar_height"
         android:background="@drawable/background_main_activity"
         android:translationZ="@dimen/four"
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:translationZ="@dimen/six"
         android:layout_gravity="bottom"
         android:baselineAligned="false"
-        android:background="@android:color/white"
+        android:background="@drawable/background_main_activity"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height">

@@ -55,13 +55,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static String TAG = LoginActivity.class.getName();
 
     private Context mContext;
 
-    private boolean mVerificationInProgress = false;
+    private boolean isCodeSended = false;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mStateChangeCallbacks;
     private FirebaseAuth mFirebaseAuth;
 
@@ -117,8 +119,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                isVerifying(false);
-                startCodeVerifyActivity();
+                if (isCodeSended) {
+                    isVerifying(false);
+                    startCodeVerifyActivity();
+                } else {
+                    instantVerify(phoneAuthCredential);
+                }
 
                 Log.d("kuku", "onVerificationCompleted!");
             }
@@ -145,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 mVerificationId = verificationId;
+                isCodeSended = true;
                 Log.d("kuku", "CodeSent!" + forceResendingToken);
             }
         };
@@ -175,6 +182,29 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(getString(R.string.phone_number), phoneNumber);
         intent.putExtra(getString(R.string.verification_id), mVerificationId);
         startActivity(intent);
+    }
+
+    private void instantVerify(PhoneAuthCredential mCredential) {
+        mFirebaseAuth.signInWithCredential(mCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    isVerifying(false);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
+                    isVerifying(false);
+                    Util.showShortToast(mContext, "Login failed, Invalid code!!!");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: " + e.toString());
+                isVerifying(false);
+                Util.showShortToast(mContext, "Login failed, please try again!!!");
+            }
+        });
     }
 
     private void isVerifying(boolean isVerifying) {

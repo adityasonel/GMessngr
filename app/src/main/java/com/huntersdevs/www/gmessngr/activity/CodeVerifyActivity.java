@@ -118,7 +118,8 @@ public class CodeVerifyActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(CodeVerifyActivity.this, MainActivity.class).addFlags(FLAG_ACTIVITY_CLEAR_TASK));
+                    startActivity(new Intent(CodeVerifyActivity.this, MainActivity.class));
+                    finish();
                 } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                     isLogin(false);
                     Util.showShortToast(mContext, "Login failed, Invalid code!!!");
