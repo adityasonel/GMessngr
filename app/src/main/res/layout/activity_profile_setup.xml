@@ -54,7 +54,7 @@
         android:layout_height="wrap_content">
         <EditText
             android:id="@+id/et_name"
-            android:letterSpacing="0.12"
+            android:letterSpacing="0.02"
             android:layout_toStartOf="@+id/tv_counter"
             android:textSize="16sp"
             android:maxLength="15"

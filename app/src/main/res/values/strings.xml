@@ -19,7 +19,7 @@
     <string name="enter_number">Enter phone number</string>
     <string name="plus_nineone">+91</string>
     <string name="next">NEXT</string>
-    <string name="hint_enter_pin">Enter VERIFICATION CODE</string>
+    <string name="hint_enter_pin">Enter CODE here!</string>
     <string name="enter_pin_number">ENTER YOUR VERIFICATION CODE</string>
     <string name="sms_pin_sent_to">VERFICATION CODE sent to</string>
     <string name="please_enter_pin_below">please enter the VERIFICATION CODE below</string>
@@ -49,6 +49,14 @@
 
     <string name="setting_up" tools:ignore="TypographyEllipsis">Setting up profile...</string>
 
+    <string name="users_list_collection">usersList</string>
+    <string name="user_id">userId</string>
+    <string name="users_info">usersInfo</string>
+
     <string name="users_collection">users</string>
     <string name="profile_info_collection">profileInfo</string>
+
+    <string name="profile_name_db">profileName</string>
+    <string name="phone_number_db">phoneNumber</string>
+
 </resources>

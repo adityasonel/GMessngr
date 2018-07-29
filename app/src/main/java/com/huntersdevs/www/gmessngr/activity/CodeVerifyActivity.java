@@ -27,9 +27,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.Util;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -123,7 +128,7 @@ public class CodeVerifyActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     mPrefManager.setPhoneNumber(phoneNumber);
-                    startActivity(new Intent(CodeVerifyActivity.this, ProfileSetupActivity.class));
+                    startActivity(new Intent(CodeVerifyActivity.this, ProfileSetupActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                     isLogin(false);

@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     isVerifying(false);
                     mPrefManager.setPhoneNumber(phoneNumber);
-                    startActivity(new Intent(LoginActivity.this, ProfileSetupActivity.class));
+                    startActivity(new Intent(LoginActivity.this, ProfileSetupActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
                 } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                     isVerifying(false);

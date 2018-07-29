@@ -4,12 +4,27 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
@@ -23,7 +38,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = MainActivity.class.getName();
+    private static String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.fl_mesaage_tab)
     FrameLayout flMessageTab;
@@ -58,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         mPrefManager = PrefManager.getInstance(mContext);
-
         if (mPrefManager.getIsFirstTime()) {
             startActivity(new Intent(MainActivity.this, PermissionActivity.class));
             finish();
@@ -72,10 +86,54 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        getData();
+
         mMessageFragment = MessageFragment.newInstance();
         mContactFragment = ContactFragment.newInstance();
 
         onClickFlMessageTab();
+    }
+
+    private void getData() {
+        String uid = null;
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        if (mFirebaseAuth.getCurrentUser() != null) {
+            uid = mFirebaseAuth.getCurrentUser().getUid();
+        }
+        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        mDatabaseReference.child(getString(R.string.users_info))
+                .child(uid)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.i(TAG, "onDataChange: " + dataSnapshot
+                                .child(getString(R.string.profile_info_collection))
+                                .child(getString(R.string.profile_name_db))
+                                .getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.i(TAG, "onCancelled: " + databaseError.toString());
+                    }
+                });
+
+        FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference mDocRef = mFirebaseFirestore.collection(getString(R.string.users_list_collection)).document("8085658521");
+        mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot docSnapshot = task.getResult();
+                    if (docSnapshot.exists()) {
+                        Log.i(TAG, "onComplete: " + docSnapshot.get(getString(R.string.user_id)));
+                    }
+                } else {
+                    Log.i(TAG, "onComplete: " + task.getException());
+                }
+            }
+        });
     }
 
     @OnClick(R.id.fl_mesaage_tab)
