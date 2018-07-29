@@ -1,23 +1,22 @@
 package com.huntersdevs.www.gmessngr.activity;
 
-import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,17 +27,26 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
+import com.huntersdevs.www.gmessngr.app.RealmManager;
 import com.huntersdevs.www.gmessngr.app.Util;
 import com.huntersdevs.www.gmessngr.fragment.ContactFragment;
 import com.huntersdevs.www.gmessngr.fragment.MessageFragment;
+import com.huntersdevs.www.gmessngr.pojo.ContactPOJO;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmList;
+import io.realm.RealmObject;
 
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
+
+    @BindView(R.id.tv_toolbar_title)
+    TextView tvToolbarTitle;
 
     @BindView(R.id.fl_mesaage_tab)
     FrameLayout flMessageTab;
@@ -61,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static boolean isContactFragmentVisible;
 
+    private ArrayList<String> mContactList = new ArrayList<>();
+
+    private RealmManager realmManager;
+
     /**
      * if
      *      mPrefManager.isFirstTime => true => start PERMISSION_ACTIVITY
@@ -73,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         mPrefManager = PrefManager.getInstance(mContext);
+
+        realmManager = RealmManager.getInstance(mContext);
+
         if (mPrefManager.getIsFirstTime()) {
             startActivity(new Intent(MainActivity.this, PermissionActivity.class));
             finish();
@@ -85,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        getData();
 
         mMessageFragment = MessageFragment.newInstance();
         mContactFragment = ContactFragment.newInstance();
@@ -140,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
     public void onClickFlMessageTab() {
         isContactFragmentVisible = false;
 
+        tvToolbarTitle.setText(getString(R.string.app_name));
+
         ivMessage.setSelected(true);
         ivContact.setSelected(false);
 
@@ -151,9 +166,12 @@ public class MainActivity extends AppCompatActivity {
         ivSetting.setVisibility(View.GONE);
     }
 
+
     @OnClick(R.id.fl_contact_tab)
     public void onClickFlContactTab() {
         isContactFragmentVisible = true;
+
+        tvToolbarTitle.setText(getString(R.string.contacts));
 
         ivContact.setSelected(true);
         ivMessage.setSelected(false);

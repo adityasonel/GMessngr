@@ -1,8 +1,10 @@
 package com.huntersdevs.www.gmessngr.activity;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -34,7 +36,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
+import com.huntersdevs.www.gmessngr.app.RealmManager;
 import com.huntersdevs.www.gmessngr.app.Util;
+import com.huntersdevs.www.gmessngr.pojo.ContactPOJO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +48,11 @@ import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmList;
 
 public class ProfileSetupActivity extends AppCompatActivity implements TextWatcher {
+
+    private static String TAG = ProfileSetupActivity.class.getSimpleName();
 
     private Context mContext;
     private PrefManager mPrefManager;
@@ -64,6 +71,8 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
 
     private String phoneNumber, profileName;
 
+    private RealmManager realmManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +80,8 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
         ButterKnife.bind(this);
         mContext = getApplicationContext();
         mPrefManager = PrefManager.getInstance(mContext);
+
+        realmManager = RealmManager.getInstance(mContext);
 
         phoneNumber = mPrefManager.getPhoneNumber();
 
@@ -92,8 +103,8 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
         lav.playAnimation();
 
         Map<String, String> value = new HashMap<>();
-        value.put("phoneNumber", phoneNumber);
-        value.put("profileName", profileName);
+        value.put(getString(R.string.phone_number_db), phoneNumber);
+        value.put(getString(R.string.profile_name_db), profileName);
 
         DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -107,9 +118,14 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
                     @Override
                     public void onSuccess(Void aVoid) {
                         mPrefManager.setIsProfileSetuped(true);
-                        lav.pauseAnimation();
-                        startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class));
-                        finish();
+                        mPrefManager.setPhoneNumber(phoneNumber);
+                        mPrefManager.setProfileName(profileName);
+
+
+                        getContactList();
+//                        lav.pauseAnimation();
+//                        startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -131,6 +147,58 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
             }
         });
 
+    }
+
+
+    private void getContactList() {
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+
+        if ((cur != null ? cur.getCount() : 0) > 0) {
+            while (cur != null && cur.moveToNext()) {
+                String id = cur.getString(
+                        cur.getColumnIndex(ContactsContract.Contacts._ID));
+
+                if (cur.getInt(cur.getColumnIndex(
+                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                    Cursor pCur = cr.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(
+                                ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        Log.i(TAG, "Phone Number: " + phoneNo);
+
+                        phoneNo = phoneNo
+                                .replaceAll(" ", "")
+                                .replaceAll("-", "")
+                                .replaceFirst("[+]91", "")
+                                .replaceFirst("^0+(?!$)", "");
+
+                        if (phoneNo.length() == 10) {
+                            ContactPOJO contactPOJO = new ContactPOJO();
+                            contactPOJO.setContact(phoneNo);
+
+                            realmManager.setContacts(contactPOJO);
+                        }
+
+                    }
+                    pCur.close();
+                }
+            }
+
+            Log.i(TAG, "Contact retreaving ended!");
+            lav.pauseAnimation();
+            startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            finish();
+        }
+
+        if(cur!=null){
+            cur.close();
+        }
     }
 
     private void setUserInfoOnFirestore() {

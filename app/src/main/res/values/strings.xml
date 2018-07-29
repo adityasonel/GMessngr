@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GMessngr</string>
 
+    <string name="realm_db_name">gmessngr.realm</string>
+
     <string name="login">LOG IN</string>
     <string name="tnc"><u>Terms &amp; Condition</u></string>
 
@@ -58,5 +60,8 @@
 
     <string name="profile_name_db">profileName</string>
     <string name="phone_number_db">phoneNumber</string>
+
+    <string name="plus_nine_one">+91</string>
+    <string name="zero_nine_one">091</string>
 
 </resources>

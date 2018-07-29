@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.huntersdevs.www.gmessngr.R;
+import com.huntersdevs.www.gmessngr.activity.MainActivity;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +35,14 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_message, container, false);
+        ButterKnife.bind(this, mView);
         mContext = getContext();
         return mView;
+    }
+
+    @OnClick(R.id.tv_message_fragment)
+    public void onClickTvMessage() {
+
     }
 
 }
