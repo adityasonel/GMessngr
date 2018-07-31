@@ -22,9 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.RealmManager;
@@ -105,7 +107,30 @@ public class MainActivity extends AppCompatActivity {
         mContactFragment = ContactFragment.newInstance();
 
         onClickFlMessageTab();
+
+        queryDataFromFirestore();
+
+//        Log.i(TAG, "onCreate: " + realmManager.getContacts());
     }
+
+    private void queryDataFromFirestore() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        CollectionReference colRef = firestore.collection(getString(R.string.users_list_collection));
+
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
+                        Log.i(TAG, realmManager.getGMessngrContact(task.getResult().getDocuments().get(i).getId()));
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
 
     private void getData() {
         String uid = null;

@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -149,7 +150,6 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
 
     }
 
-
     private void getContactList() {
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -170,7 +170,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
                     while (pCur.moveToNext()) {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Log.i(TAG, "Phone Number: " + phoneNo);
+//                        Log.i(TAG, "Phone Number: " + phoneNo);
 
                         phoneNo = phoneNo
                                 .replaceAll(" ", "")

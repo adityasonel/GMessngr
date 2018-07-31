@@ -51,4 +51,10 @@ public class RealmManager {
         }
         return contacts;
     }
+
+    public String getGMessngrContact(String mContact) {
+        ContactPOJO result = realm.where(ContactPOJO.class).equalTo("contact", mContact).findFirst();
+        return result.getContact();
+    }
+
 }
