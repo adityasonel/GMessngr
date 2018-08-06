@@ -9,8 +9,6 @@ public class PrefManager {
     private static PrefManager instance  = null;
     private SharedPreferences.Editor editor;
 
-    private static final String PREF_NAME = "GMessngrPref";
-
     private static final String KEY_IS_FIRST_TIME = "isFirstTime";
     private static final String KEY_IS_PROFILE_SETUPED = "isProfileSetuped";
 
@@ -19,7 +17,7 @@ public class PrefManager {
 
     private PrefManager(Context context) {
         int PRIVATE_MODE = 0;
-        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getSharedPreferences(context.getPackageName(), PRIVATE_MODE);
         editor = pref.edit();
     }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_contact_holder"
+    android:background="@android:color/white"
+    android:paddingStart="@dimen/sixteen"
+    android:paddingEnd="@dimen/sixteen"
+    android:layout_width="match_parent"
+    android:layout_height="62dp">
+
+    <com.huntersdevs.www.gmessngr.ui.CircleImageView
+        android:id="@+id/iv_profile_image"
+        android:src="@drawable/ic_avatar"
+        android:layout_centerVertical="true"
+        android:layout_width="42dp"
+        android:layout_height="42dp" />
+
+    <TextView
+        android:id="@+id/tv_profile_name"
+        android:text="Walter white"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/ios_font_regular"
+        android:layout_marginStart="@dimen/sixteen"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/iv_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

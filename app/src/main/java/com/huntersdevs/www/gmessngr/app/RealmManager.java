@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.pojo.ContactPOJO;
+import com.huntersdevs.www.gmessngr.pojo.GMessngrContactPOJO;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,12 @@ public class RealmManager {
     public String getGMessngrContact(String mContact) {
         ContactPOJO result = realm.where(ContactPOJO.class).equalTo("contact", mContact).findFirst();
         return result.getContact();
+    }
+
+    public void setGMessngrContact(GMessngrContactPOJO mContactPojo) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(mContactPojo);
+        realm.commitTransaction();
     }
 
 }

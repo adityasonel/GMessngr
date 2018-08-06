@@ -21,8 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -35,11 +37,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.huntersdevs.www.gmessngr.R;
 import com.huntersdevs.www.gmessngr.app.PrefManager;
 import com.huntersdevs.www.gmessngr.app.RealmManager;
 import com.huntersdevs.www.gmessngr.app.Util;
 import com.huntersdevs.www.gmessngr.pojo.ContactPOJO;
+import com.huntersdevs.www.gmessngr.pojo.GMessngrContactPOJO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -191,14 +195,40 @@ public class ProfileSetupActivity extends AppCompatActivity implements TextWatch
             }
 
             Log.i(TAG, "Contact retreaving ended!");
-            lav.pauseAnimation();
-            startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            finish();
+//            lav.pauseAnimation();
+//            startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//            finish();
+            queryDataFromFirestore();
         }
 
         if(cur!=null){
             cur.close();
         }
+    }
+
+    private void queryDataFromFirestore() {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        CollectionReference colRef = firestore.collection(getString(R.string.users_list_collection));
+
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
+                        Log.i(TAG, realmManager.getGMessngrContact(task.getResult().getDocuments().get(i).getId()));
+
+                        GMessngrContactPOJO contactPOJO = new GMessngrContactPOJO(realmManager.getGMessngrContact(task.getResult().getDocuments().get(i).getId()));
+                        realmManager.setGMessngrContact(contactPOJO);
+
+                        lav.pauseAnimation();
+                        startActivity(new Intent(ProfileSetupActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        finish();
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
     private void setUserInfoOnFirestore() {

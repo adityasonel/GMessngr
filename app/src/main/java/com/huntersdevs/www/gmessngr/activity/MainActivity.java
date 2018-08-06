@@ -34,6 +34,7 @@ import com.huntersdevs.www.gmessngr.app.Util;
 import com.huntersdevs.www.gmessngr.fragment.ContactFragment;
 import com.huntersdevs.www.gmessngr.fragment.MessageFragment;
 import com.huntersdevs.www.gmessngr.pojo.ContactPOJO;
+import com.huntersdevs.www.gmessngr.pojo.GMessngrContactPOJO;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,30 +109,7 @@ public class MainActivity extends AppCompatActivity {
         mContactFragment = ContactFragment.newInstance();
 
         onClickFlMessageTab();
-
-        queryDataFromFirestore();
-
-//        Log.i(TAG, "onCreate: " + realmManager.getContacts());
     }
-
-    private void queryDataFromFirestore() {
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        CollectionReference colRef = firestore.collection(getString(R.string.users_list_collection));
-
-        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (int i = 0; i < task.getResult().getDocuments().size(); i++) {
-                        Log.i(TAG, realmManager.getGMessngrContact(task.getResult().getDocuments().get(i).getId()));
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
 
     private void getData() {
         String uid = null;

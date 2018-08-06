@@ -22,8 +22,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.huntersdevs.www.gmessngr.R;
+import com.huntersdevs.www.gmessngr.adapter.ContactAdapter;
+import com.huntersdevs.www.gmessngr.app.RealmManager;
+import com.huntersdevs.www.gmessngr.pojo.GMessngrContactPOJO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -37,9 +41,12 @@ public class ContactFragment extends Fragment {
     private View mView;
     private Context mContext;
 
-    public ContactFragment() {
-        // Required empty public constructor
-    }
+    private List<GMessngrContactPOJO> list;
+    private ContactAdapter contactAdapter;
+
+    private RealmManager realmManager;
+
+    public ContactFragment() { }
 
     public static ContactFragment newInstance() {
         return new ContactFragment();
@@ -48,9 +55,14 @@ public class ContactFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_contact, container, false);
         mContext = getContext();
+
+        realmManager = RealmManager.getInstance(mContext);
+
+        list = new ArrayList<>();
+        contactAdapter = new ContactAdapter(list, mContext);
+
 
         return mView;
     }
